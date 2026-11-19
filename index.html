@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AI тест">
+<meta name="theme-color" content="#4f46e5">
+<title>Lab3 + Lab4 — подготовка к тесту</title>
+<style>
+:root {
+  --bg: #f4f5f8;
+  --card: #ffffff;
+  --text: #1b1d24;
+  --muted: #6b7080;
+  --line: #e2e4ea;
+  --accent: #3b5bdb;
+  --accent-soft: #e7ecff;
+  --ok: #1f9d55;
+  --ok-soft: #e3f6ea;
+  --bad: #d64545;
+  --bad-soft: #fde8e8;
+  --code-bg: #f6f8fa;
+  --code-text: #24292f;
+  --t-k: #cf222e;
+  --t-s: #0a3069;
+  --t-n: #0550ae;
+  --t-c: #6e7781;
+  --t-b: #8250df;
+  --mark: #fff1a8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111318;
+    --card: #1b1e26;
+    --text: #e8eaf0;
+    --muted: #9aa0b2;
+    --line: #2c303b;
+    --accent: #7c9bff;
+    --accent-soft: #232b45;
+    --ok: #4cc97a;
+    --ok-soft: #173023;
+    --bad: #ff7676;
+    --bad-soft: #3a1d1f;
+    --code-bg: #0f1116;
+    --code-text: #d8dee9;
+    --t-k: #ff7b72;
+    --t-s: #a5d6ff;
+    --t-n: #79c0ff;
+    --t-c: #8b949e;
+    --t-b: #d2a8ff;
+    --mark: #5a4a00;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 12px 12px 96px; }
+h1 { font-size: 22px; margin: 6px 0 4px; }
+h2 { font-size: 18px; margin: 18px 0 8px; }
+h3 { font-size: 16px; margin: 14px 0 6px; }
+.muted { color: var(--muted); font-size: 14px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  margin: 10px 0;
+}
+.btn {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 13px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+}
+.btn.secondary { background: var(--accent-soft); color: var(--accent); }
+.btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.btn:disabled { opacity: .45; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.row { display: flex; gap: 8px; align-items: center; }
+.row > * { flex: 1; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; }
+.stats b { display: block; font-size: 20px; }
+.stats span { font-size: 12px; color: var(--muted); }
+.topic {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 2px; border-bottom: 1px solid var(--line);
+}
+.topic:last-child { border-bottom: 0; }
+.topic input { width: 20px; height: 20px; flex: none; }
+.topic .tname { flex: 1; font-size: 15px; }
+.topic .tcount { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.bar { height: 5px; background: var(--line); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.bar i { display: block; height: 100%; background: var(--ok); }
+.toggle { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 15px; }
+.toggle input { width: 20px; height: 20px; }
+
+.qtop { display: flex; align-items: center; gap: 8px; position: sticky; top: 0; background: var(--bg); padding: 8px 0; z-index: 5; }
+.qtop .back { flex: none; width: auto; padding: 8px 12px; font-size: 14px; }
+.qtop .prog { flex: 1; font-size: 13px; color: var(--muted); text-align: right; }
+.pbar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.pbar i { display: block; height: 100%; background: var(--accent); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.tag { font-size: 12px; padding: 3px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.tag.code { background: #fff3d6; color: #8a5a00; }
+@media (prefers-color-scheme: dark) { .tag.code { background: #3a2e12; color: #f2c66d; } }
+.qtext { font-size: 17px; font-weight: 600; margin: 4px 0 10px; }
+.qtext code, .opt code, .md code, .fb code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--code-bg);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+pre.code {
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13.5px;
+  line-height: 1.55;
+  padding: 12px;
+  border-radius: 10px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 8px 0;
+  border: 1px solid var(--line);
+}
+@media (max-width: 420px) {
+  pre.code { font-size: 12.5px; padding: 10px; }
+}
+.t-k { color: var(--t-k); }
+.t-s { color: var(--t-s); }
+.t-n { color: var(--t-n); }
+.t-c { color: var(--t-c); font-style: italic; }
+.t-b { color: var(--t-b); }
+pre.code mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 2px; font-weight: 700; }
+input.blank {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 16px;
+  padding: 2px 4px;
+  margin: 1px 0;
+  border: 1.5px dashed var(--accent);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--text);
+  min-width: 5ch;
+  vertical-align: baseline;
+}
+input.blank.ok { border: 1.5px solid var(--ok); background: var(--ok-soft); }
+input.blank.bad { border: 1.5px solid var(--bad); background: var(--bad-soft); }
+input.num {
+  width: 100%; font-size: 18px; padding: 12px; border-radius: 10px;
+  border: 1.5px solid var(--line); background: var(--card); color: var(--text);
+}
+input.num.ok { border-color: var(--ok); background: var(--ok-soft); }
+input.num.bad { border-color: var(--bad); background: var(--bad-soft); }
+.opt {
+  display: block; width: 100%; text-align: left;
+  border: 1.5px solid var(--line); background: var(--card); color: var(--text);
+  border-radius: 12px; padding: 12px; margin: 8px 0; font-size: 15.5px; cursor: pointer;
+}
+.opt .mk { display: inline-block; width: 22px; font-weight: 700; color: var(--muted); }
+.opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+.opt.ok { border-color: var(--ok); background: var(--ok-soft); }
+.opt.bad { border-color: var(--bad); background: var(--bad-soft); }
+.opt.miss { border-color: var(--ok); border-style: dashed; }
+.opt:disabled { cursor: default; color: var(--text); opacity: 1; }
+.fb { border-radius: 12px; padding: 12px; margin-top: 12px; }
+.fb.ok { background: var(--ok-soft); border: 1px solid var(--ok); }
+.fb.bad { background: var(--bad-soft); border: 1px solid var(--bad); }
+.fb .verdict { font-weight: 700; font-size: 17px; margin-bottom: 6px; }
+.fb .ans { margin: 6px 0; }
+.md p { margin: 6px 0; }
+.md ul, .md ol { margin: 6px 0; padding-left: 22px; }
+.md li { margin: 3px 0; }
+.md h3 { margin: 12px 0 4px; }
+.hint { font-size: 13px; color: var(--muted); margin: 4px 0 8px; }
+.actions {
+  position: fixed; left: 0; right: 0; bottom: 56px;
+  background: linear-gradient(to top, var(--bg) 70%, transparent);
+  padding: 10px 12px 8px; z-index: 6;
+}
+.actions .inner { max-width: 760px; margin: 0 auto; display: flex; gap: 8px; }
+.actions .inner .btn { flex: 1; }
+.actions .inner .btn.small { flex: 0 0 auto; width: auto; padding: 13px 14px; }
+nav.tabs {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 56px;
+  background: var(--card); border-top: 1px solid var(--line);
+  display: flex; z-index: 7; padding-bottom: env(safe-area-inset-bottom);
+}
+nav.tabs button {
+  flex: 1; border: 0; background: transparent; color: var(--muted);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+}
+nav.tabs button.on { color: var(--accent); }
+nav.tabs button span { display: block; font-size: 20px; line-height: 1.1; }
+details.sec { background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin: 10px 0; }
+details.sec > summary { padding: 14px; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+details.sec > summary::-webkit-details-marker { display: none; }
+details.sec > summary::after { content: "＋"; color: var(--muted); flex: none; }
+details.sec[open] > summary::after { content: "－"; }
+details.sec .md { padding: 0 14px 14px; }
+.reslist a { color: var(--accent); text-decoration: none; }
+.reslist li { margin: 6px 0; }
+.big { font-size: 40px; font-weight: 800; text-align: center; margin: 8px 0; }
+.search { width: 100%; font-size: 16px; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+window.TOPICS = [{"key": "tips", "icon": "🧾", "name": "Lab3 tips: загрузка, фильтр, сорт, графики"}, {"key": "titanic", "icon": "🚢", "name": "Titanic P3: очистка и визуализация"}, {"key": "penguins", "icon": "🐧", "name": "Lab4 penguins: очистка, фильтр, groupby, графики"}, {"key": "models", "icon": "🤖", "name": "Lab4 ML: Pipeline, ColumnTransformer, KNN, LogReg"}];
+window.QUESTIONS = [{"id": "t1-01", "topic": "tips", "q": "Complete the code that loads the tips dataset and shows shape and columns.", "exp": "Датасет tips загружается через seaborn. Форма **(244, 7)**. `shape` и `columns` — атрибуты **без** скобок.", "code": "df = sns.⟦load_dataset⟧('⟦tips⟧')\ndf.⟦head⟧()\nprint(df.⟦shape⟧)\nprint(df.⟦columns⟧)", "type": "fill"}, {"id": "t1-02", "topic": "tips", "q": "How many rows and columns does the tips dataset have?", "exp": "`sns.load_dataset('tips')` → 244 строки, 7 столбцов. 344 — penguins, 891 — titanic.", "options": ["(244, 7)", "(344, 7)", "(891, 15)", "(4622, 5)"], "type": "mcq", "answer": 0}, {"id": "t1-03", "topic": "tips", "q": "Which columns does the tips dataset have? (select all that apply)", "exp": "Все 7 столбцов tips. `species`/`island` — из penguins.", "options": ["total_bill", "tip", "sex", "smoker", "day", "time", "size", "species", "island"], "type": "multi", "answer": [0, 1, 2, 3, 4, 5, 6]}, {"id": "t1-04", "topic": "tips", "q": "Complete the code that creates weekend and weekday subsets.", "exp": "В tips дни: Thur, Fri, Sat, Sun. Выходные = Sat+Sun, будни = Thur+Fri. `isin([...])` удобнее, чем два `==` через `|`.", "code": "weekend = df[df['day'].⟦isin⟧(['⟦Sat⟧', '⟦Sun⟧'])]\nweekday = df[df['day'].isin(['⟦Thur⟧', '⟦Fri⟧'])]", "type": "fill"}, {"id": "t1-05", "topic": "tips", "q": "Approximate average tip on weekends vs weekdays?", "exp": "Из лабы: weekend tip ≈ 3.115, weekday ≈ 2.763. Счёт тоже выше на выходных (≈20.9 vs ≈17.6).", "options": ["Weekend ≈ 3.12, weekday ≈ 2.76", "Weekend ≈ 2.76, weekday ≈ 3.12", "Both ≈ 5.0", "Weekend ≈ 10, weekday ≈ 1"], "type": "mcq", "answer": 0}, {"id": "t1-06", "topic": "tips", "q": "Why are tips higher on weekends according to the lab conclusion?", "exp": "Выше tip в основном из‑за большего счёта, а не обязательно из‑за другого % чаевых.", "options": ["Because the average total bill is also higher on weekends", "Because smokers tip much more on weekends", "Because only men visit on weekends", "Because there are missing values on weekdays"], "type": "mcq", "answer": 0}, {"id": "t1-07", "topic": "tips", "q": "Complete the code: sort by total_bill descending and take top 10.", "exp": "`ascending=False` — по убыванию. `head(10)` — первые 10 после сортировки.", "code": "df_sorted = df.⟦sort_values⟧('total_bill', ⟦ascending⟧=⟦False⟧)\ntop10 = df_sorted.⟦head⟧(⟦10⟧)", "type": "fill"}, {"id": "t1-08", "topic": "tips", "q": "What do you notice about group sizes among the top 10 highest bills?", "exp": "В top-10 средний size ≈ 3.8, по всем ≈ 2.57. Большие компании → большие счета.", "options": ["They are larger than average (≈3.8 vs ≈2.6 for all customers)", "They are all size 1", "They are smaller than average", "Size is unrelated to the bill"], "type": "mcq", "answer": 0}, {"id": "t1-09", "topic": "tips", "q": "Complete the code that checks missing values.", "exp": "В tips пропусков **0**. `isnull()` даёт True/False таблицу, `sum()` считает True по столбцам.", "code": "df.⟦isnull⟧().⟦sum⟧()", "type": "fill"}, {"id": "t1-10", "topic": "tips", "q": "Why are missing values dangerous in machine learning? (best answer)", "exp": "Классический ответ из лабы/лекции: модели падают на NaN; удаление/заполнение может исказить данные.", "options": ["Many algorithms cannot handle NaN; dropping rows loses data / may bias the sample; naive filling can hide patterns", "They make plots prettier", "They only slow down Python imports", "Missing values are never a problem"], "type": "mcq", "answer": 0}, {"id": "t1-11", "topic": "tips", "q": "Complete the three Lab3 plots.", "exp": "1) scatter tip vs bill; 2) bar средних tip по дням; 3) гистограмма tip с KDE.", "code": "sns.⟦scatterplot⟧(x='total_bill', y='tip', data=df)\ndf.groupby('day', observed=True)['tip'].⟦mean⟧().plot(kind='⟦bar⟧')\nsns.⟦histplot⟧(df['tip'], bins=20, ⟦kde⟧=True)", "type": "fill"}, {"id": "t1-12", "topic": "tips", "q": "Which day has the highest average tip?", "exp": "По среднему tip: Sun ≈ 3.26 > Sat ≈ 2.99 > Thur ≈ 2.77 > Fri ≈ 2.73.", "options": ["Sunday", "Saturday", "Thursday", "Friday"], "type": "mcq", "answer": 0}, {"id": "t1-13", "topic": "tips", "q": "What does the tip distribution histogram show?", "exp": "Большинство 2–4 $, длинный хвост справа (skewed right). Dinner tips в среднем выше lunch.", "options": ["Most tips are around 2–4 dollars, with a right tail of larger tips", "Tips are perfectly normally distributed around 10", "All tips are exactly 2 dollars", "Tips are higher at lunch than dinner"], "type": "mcq", "answer": 0}, {"id": "t1-14", "topic": "tips", "q": "Complete: average tip by sex and by smoker.", "exp": "Male tip чуть выше Female в долларах. Smoker Yes/No почти одинаковы (~3.01 vs ~2.99).", "code": "print(df.⟦groupby⟧('sex', observed=True)['tip'].⟦mean⟧())\nprint(df.groupby('⟦smoker⟧', observed=True)['tip'].mean())", "type": "fill"}, {"id": "t1-15", "topic": "tips", "q": "For restaurant management, which insight is most useful from Lab3?", "exp": "Итог Q6: weekend dinner + большие столы = больше tip-денег → больше персонала на эти смены.", "options": ["Expect more tip money on weekend dinners and larger tables; staff those shifts more heavily", "Delete all Saturday data", "Tips never depend on the bill", "Only smokers leave tips"], "type": "mcq", "answer": 0}, {"id": "t1-16", "topic": "tips", "q": "What happens if you write `df.shape()`?", "exp": "`shape` — атрибут. Скобки вызывают его как функцию → ошибка.", "options": ["TypeError: 'tuple' object is not callable", "It returns (244, 7)", "It returns the column names", "It deletes the DataFrame"], "type": "mcq", "answer": 0}, {"id": "t1-17", "topic": "tips", "q": "Which filter correctly keeps Saturday OR Sunday?", "exp": "`isin` или `(day=='Sat') | (day=='Sun')`. `and` с Series даёт ValueError. `=` — присваивание.", "options": ["`df[df['day'].isin(['Sat', 'Sun'])]`", "`df[df['day'] == 'Sat' and df['day'] == 'Sun']`", "`df[df['day'] = 'Sat']`", "`df.day.contains('weekend')`"], "type": "mcq", "answer": 0}, {"id": "ti-01", "topic": "titanic", "q": "Complete Titanic cleaning from P3 (pandas-3 safe).", "exp": "Мода для embarked; category для sex/class; семья = sibsp+parch+сам пассажир; clip по 99-му перцентилю — capping выбросов без удаления строк.", "code": "df['embarked'] = df['embarked'].⟦fillna⟧(df['embarked'].⟦mode⟧()⟦[0]⟧)\ndf[['sex', 'class']] = df[['sex', 'class']].⟦astype⟧('⟦category⟧')\ndf['family_size'] = df['sibsp'] + df['parch'] + ⟦1⟧\ndf['fare'] = df['fare'].⟦clip⟧(upper=df['fare'].⟦quantile⟧(0.99))", "type": "fill"}, {"id": "ti-02", "topic": "titanic", "q": "Titanic missing values: which counts are correct?", "exp": "Из P3: age 177, embarked/embark_town по 2, deck 688. Deck часто лучше дропнуть/сделать Unknown, а не удалять 688 строк.", "options": ["age 177, embarked 2, deck 688, embark_town 2", "age 2, deck 11", "no missing values", "only fare is missing"], "type": "mcq", "answer": 0}, {"id": "ti-03", "topic": "titanic", "q": "Complete the four Titanic plots from P3.", "exp": "pairplot / heatmap / scatter / histplot — стандартный набор визуализации P3.", "code": "sns.⟦pairplot⟧(df, vars=['age', 'fare', 'sibsp'], ⟦hue⟧='survived')\nsns.⟦heatmap⟧(df.corr(⟦numeric_only⟧=True), ⟦annot⟧=True, cmap='coolwarm')\nsns.⟦scatterplot⟧(x='age', y='fare', hue='survived', data=df)\nsns.⟦histplot⟧(df['age'], bins=30, ⟦kde⟧=True)", "type": "fill"}, {"id": "p-01", "topic": "penguins", "q": "Complete: load penguins and print shape, columns, dtypes.", "exp": "Форма **(344, 7)**. Столбцы: species, island, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, sex.", "code": "df = sns.⟦load_dataset⟧(\"⟦penguins⟧\")\nprint(df.⟦shape⟧)\nprint(df.⟦columns⟧)\nprint(df.⟦dtypes⟧)", "type": "fill"}, {"id": "p-02", "topic": "penguins", "q": "How many missing values are in `sex` and in each numeric measurement column?", "exp": "`df.isnull().sum()`: числовые по 2, sex = 11, species/island = 0.", "options": ["sex: 11; each of bill_length/depth, flipper_length, body_mass: 2", "All columns: 0", "sex: 2; numeric: 11 each", "Only island has missing values"], "type": "mcq", "answer": 0}, {"id": "p-03", "topic": "penguins", "q": "Complete the cleaning code (duplicates + median/mode fill).", "exp": "Числа → медиана, категории → мода. `mode()[0]` обязателен. Присваивание обратно — безопасно в pandas 3.", "code": "df_clean = df.⟦drop_duplicates⟧().⟦copy⟧()\n\nnum_cols = df_clean.select_dtypes(include=\"⟦number⟧\").columns\ncat_cols = df_clean.select_dtypes(⟦exclude⟧=\"number\").columns\n\nfor col in num_cols:\n    df_clean[col] = df_clean[col].fillna(df_clean[col].⟦median⟧())\n\nfor col in cat_cols:\n    df_clean[col] = df_clean[col].fillna(df_clean[col].⟦mode⟧()⟦[0]⟧)\n\ndf_clean.isnull().sum()", "type": "fill"}, {"id": "p-04", "topic": "penguins", "q": "Why `mode()[0]` and not just `mode()`?", "exp": "Без `[0]` fillna получит Series и почти ничего не заполнит.", "options": ["`mode()` returns a Series (several modes possible); fillna needs one scalar → take `[0]`", "`mode()` returns a string already", "`[0]` converts to int", "Without `[0]` pandas fills with the median"], "type": "mcq", "answer": 0}, {"id": "p-05", "topic": "penguins", "q": "Complete: filter only island Biscoe and print shape.", "exp": "Результат **(168, 7)**. Острова: Biscoe 168, Dream 124, Torgersen 52.", "code": "biscoe_df = df_clean[df_clean[\"⟦island⟧\"] == \"⟦Biscoe⟧\"]\nprint(biscoe_df.⟦shape⟧)", "type": "fill"}, {"id": "p-06", "topic": "penguins", "q": "Complete: heavy males — body_mass > mean AND sex Male.", "exp": "Каждое условие в скобках, `&` вместо `and`, сравнение `==`.", "code": "mean_mass = df_clean[\"body_mass_g\"].⟦mean⟧()\nheavy_males = df_clean[(df_clean[\"body_mass_g\"] ⟦>⟧ mean_mass) ⟦&⟧ (df_clean[\"sex\"] ⟦==⟧ \"Male\")]\nheavy_males.head()", "type": "fill"}, {"id": "p-07", "topic": "penguins", "q": "What error do you get with `df[(df.a > 1) and (df.b == \"Male\")]`?", "exp": "Python `and` не умеет поэлементно работать с Series. Нужен `&`.", "options": ["ValueError: The truth value of a Series is ambiguous — use `&`", "SyntaxError only", "It works fine", "KeyError"], "type": "mcq", "answer": 0}, {"id": "p-08", "topic": "penguins", "q": "Complete the two-key sort from Q7.", "exp": "Сначала масса по убыванию, при равенстве — длина клюва по возрастанию. Top — почти все Gentoo Male с Biscoe.", "code": "df_clean.⟦sort_values⟧(by=[\"body_mass_g\", \"bill_length_mm\"],\n                      ⟦ascending⟧=[⟦False⟧, ⟦True⟧]).head(⟦10⟧)", "type": "fill"}, {"id": "p-09", "topic": "penguins", "q": "Mean body mass per species (descending order). Which is heaviest?", "exp": "Gentoo заметно тяжелее. Adelie и Chinstrap почти одинаковы — поэтому boxplot массы хорошо отделяет только Gentoo.", "options": ["Gentoo (≈5068) > Chinstrap (≈3733) > Adelie (≈3703)", "Adelie > Gentoo > Chinstrap", "Chinstrap > Gentoo > Adelie", "All equal"], "type": "mcq", "answer": 0}, {"id": "p-10", "topic": "penguins", "q": "Complete the three aggregations from Q8.", "exp": "Мультиключ groupby — списком. Count записей — `size()` (не `sum` quantity).", "code": "print(df_clean.groupby(\"species\")[\"body_mass_g\"].mean().⟦sort_values⟧(ascending=False))\nprint(df_clean.groupby(⟦[\"species\", \"sex\"]⟧)[\"bill_length_mm\"].mean())\nprint(df_clean.groupby(\"island\").⟦size⟧())", "type": "fill"}, {"id": "p-11", "topic": "penguins", "q": "Complete bill_ratio feature engineering and find the species with highest mean.", "exp": "Ответ — **Gentoo** (длинный узкий клюв → больший ratio ≈ 3.17). `idxmax` даёт имя вида, `max` — число.", "code": "df_clean[\"bill_ratio\"] = df_clean[\"bill_length_mm\"] ⟦/⟧ df_clean[\"bill_depth_mm\"]\nprint(df_clean[\"bill_ratio\"].⟦describe⟧())\nprint(df_clean.groupby(\"species\")[\"bill_ratio\"].mean().⟦idxmax⟧())", "type": "fill"}, {"id": "p-12", "topic": "penguins", "q": "Complete the Lab4 plots for Q10–Q12.", "exp": "countplot / scatter+hue / boxplot / heatmap. `annot=True` пишет числа в клетках.", "code": "sns.⟦countplot⟧(data=df_clean, x=\"species\")\nsns.⟦scatterplot⟧(data=df_clean, x=\"bill_length_mm\", y=\"bill_depth_mm\", ⟦hue⟧=\"species\")\nsns.⟦boxplot⟧(data=df_clean, x=\"species\", y=\"body_mass_g\")\ncorr = df_clean.select_dtypes(include=\"number\").⟦corr⟧()\nsns.⟦heatmap⟧(corr, ⟦annot⟧=True)", "type": "fill"}, {"id": "p-13", "topic": "penguins", "q": "Boxplot of body_mass by species — best interpretation?", "exp": "Перекрытие ящиков Adelie/Chinstrap = признак плохо разделяет эти два вида. Для них важнее клюв (scatter).", "options": ["Gentoo is clearly heavier; Adelie and Chinstrap boxes overlap, so mass alone does not separate those two", "All three species have identical mass", "Adelie is the heaviest", "Body mass alone perfectly separates all three species"], "type": "mcq", "answer": 0}, {"id": "p-14", "topic": "penguins", "q": "`countplot` vs `barplot` for \"how many penguins per species\"?", "exp": "`countplot` считает строки. `barplot` рисует среднее числового y (+ CI).", "options": ["Use `sns.countplot(data=df, x=\"species\")`", "Use `sns.barplot(data=df, x=\"species\", y=\"body_mass_g\")`", "Use only `plt.pie`", "Use `sns.heatmap`"], "type": "mcq", "answer": 0}, {"id": "p-15", "topic": "penguins", "q": "Complete train/test split for species prediction.", "exp": "Порядок: X_train, X_test, y_train, y_test. При наличии bill_ratio shapes **(275, 7) (69, 7)**.", "code": "y = df_clean[\"⟦species⟧\"]\nX = df_clean.⟦drop⟧(columns=[\"species\"])\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, ⟦test_size⟧=0.2, random_state=⟦42⟧, ⟦stratify⟧=y\n)\nprint(X_train.shape, X_test.shape)", "type": "fill"}, {"id": "p-16", "topic": "penguins", "q": "After adding bill_ratio and dropping species, why is X shape (..., 7)?", "exp": "Исходно 7 → +bill_ratio = 8 → −species = 7. Частая ловушка на тесте.", "options": ["Original 7 columns − species + bill_ratio = 7 features", "Because train_test_split always makes 7 columns", "Because sex was dropped", "Because island was one-hot encoded already in X"], "type": "mcq", "answer": 0}, {"id": "p-17", "topic": "penguins", "q": "How many test rows with 344 samples and test_size=0.2?", "exp": "sklearn округляет вверх: ⌈68.8⌉ = 69. Train = 275.", "type": "num", "answer": 69.0, "tol": 0.0, "answerText": "69 (= ceil(344×0.2))"}, {"id": "p-18", "topic": "models", "q": "Complete the preprocessing pipelines (Q14).", "exp": "Числа: median → StandardScaler. Категории: most_frequent → OneHot(ignore). ColumnTransformer = (имя, трансформер, столбцы).", "code": "numeric_features = X.select_dtypes(include=[np.number]).columns.⟦tolist⟧()\ncategorical_features = X.select_dtypes(⟦exclude⟧=[np.number]).columns.tolist()\n\nnumeric_transformer = ⟦Pipeline⟧(steps=[\n    (\"imputer\", SimpleImputer(strategy=\"⟦median⟧\")),\n    (\"scaler\", ⟦StandardScaler⟧())\n])\n\ncategorical_transformer = Pipeline(steps=[\n    (\"imputer\", SimpleImputer(strategy=\"⟦most_frequent⟧\")),\n    (\"onehot\", OneHotEncoder(handle_unknown=\"⟦ignore⟧\"))\n])\n\npreprocess = ⟦ColumnTransformer⟧(transformers=[\n    (\"num\", numeric_transformer, ⟦numeric_features⟧),\n    (\"cat\", categorical_transformer, ⟦categorical_features⟧),\n])", "type": "fill"}, {"id": "p-19", "topic": "models", "q": "Why keep SimpleImputer in the pipeline if df_clean already has no NaN?", "exp": "Дословно из лабы: handle missing even if already cleaned. Медианы/моды выучиваются на X_train.", "options": ["New/unseen data may have missing values; the pipeline must handle raw future data using stats learned from train only", "Because ColumnTransformer requires it always", "To create more columns", "It's a mistake in the notebook"], "type": "mcq", "answer": 0}, {"id": "p-20", "topic": "models", "q": "Why is the imputer BEFORE the scaler?", "exp": "Шаги идут сверху вниз. Сначала чистим NaN, потом масштабируем.", "options": ["Scaler/statistics cannot work properly with NaN; fill first, then scale", "Order does not matter", "Scaler must come first always", "Pipeline sorts steps alphabetically"], "type": "mcq", "answer": 0}, {"id": "p-21", "topic": "models", "q": "After preprocess, how many columns for penguins X with bill_ratio, island(3), sex(2)?", "exp": "5 числовых + island one-hot 3 + sex one-hot 2 = **10**.", "type": "num", "answer": 10.0, "tol": 0.0, "answerText": "10 (= 5 numeric + 3 + 2)"}, {"id": "p-22", "topic": "models", "q": "Complete the KNN model pipeline and accuracy.", "exp": "Accuracy ≈ **0.9855** (1 ошибка из 69). `accuracy_score(y_true, y_pred)`.", "code": "knn_model = Pipeline(steps=[\n    (\"preprocess\", ⟦preprocess⟧),\n    (\"model\", ⟦KNeighborsClassifier⟧(⟦n_neighbors⟧=5))\n])\nknn_model.⟦fit⟧(X_train, y_train)\nknn_pred = knn_model.⟦predict⟧(X_test)\nprint(⟦accuracy_score⟧(y_test, knn_pred))", "type": "fill"}, {"id": "p-23", "topic": "models", "q": "Complete Logistic Regression pipeline.", "exp": "Accuracy **1.0** на этом split. `max_iter=2000` — чтобы солвер сошёлся (дефолт 100 часто мало).", "code": "logreg_model = Pipeline(steps=[\n    (\"preprocess\", preprocess),\n    (\"model\", ⟦LogisticRegression⟧(⟦max_iter⟧=2000))\n])\nlogreg_model.fit(X_train, y_train)\nprint(accuracy_score(y_test, logreg_model.predict(X_test)))", "type": "fill"}, {"id": "p-24", "topic": "models", "q": "Despite the name, LogisticRegression is used for:", "exp": "В пингвинах — multiclass classification видов. Это классификатор, не регрессия цен.", "options": ["Classification (class probabilities via sigmoid/softmax)", "Predicting a continuous tip amount", "Clustering islands", "Filling missing values"], "type": "mcq", "answer": 0}, {"id": "p-25", "topic": "models", "q": "Why does KNN need StandardScaler here more than a Decision Tree would?", "exp": "Масса в тысячах, клюв в десятках. Без scaling KNN почти смотрит только на массу.", "options": ["KNN uses distances; large-scale features (body_mass_g) would dominate without scaling", "Trees also always need scaling", "KNN cannot run without OneHotEncoder", "Scaling removes missing values"], "type": "mcq", "answer": 0}, {"id": "p-26", "topic": "models", "q": "Correct argument order for accuracy_score?", "exp": "`accuracy_score(y_true, y_pred)`. Для accuracy порядок почти не важен, но для других метрик критичен — привыкай писать true первым.", "options": ["accuracy_score(y_test, y_pred)", "accuracy_score(X_test, y_pred)", "accuracy_score(y_pred, X_train)", "accuracy_score(model, X_test)"], "type": "mcq", "answer": 0}, {"id": "p-27", "topic": "models", "q": "What is the return order of train_test_split(X, y, ...)?", "exp": "Классическая ловушка: перепутал порядок — модель учится на тестовых метках.", "options": ["X_train, X_test, y_train, y_test", "X_train, y_train, X_test, y_test", "y_train, y_test, X_train, X_test", "X_test, X_train, y_test, y_train"], "type": "mcq", "answer": 0}, {"id": "p-28", "topic": "models", "q": "Which imports are required for Lab4 ML part? (select all)", "exp": "Ровно тот список, который просят скопировать в начале Lab4.", "options": ["train_test_split", "ColumnTransformer", "OneHotEncoder", "StandardScaler", "Pipeline", "SimpleImputer", "KNeighborsClassifier", "LogisticRegression", "accuracy_score", "DecisionTreeRegressor", "MinMaxScaler"], "type": "multi", "answer": [0, 1, 2, 3, 4, 5, 6, 7, 8]}, {"id": "p-29", "topic": "models", "q": "KNN accuracy 0.9855 on 69 test samples — how many mistakes?", "exp": "68/69 ≈ 0.9855 → одна ошибка. LogReg 1.0 = 0 ошибок на этом split.", "type": "num", "answer": 1.0, "tol": 0.0, "answerText": "1"}, {"id": "p-30", "topic": "models", "q": "When knn_model.predict(X_test) runs, what happens inside the Pipeline?", "exp": "`predict` у Pipeline = transform всех шагов-трансформеров + predict модели. Утечки из теста нет.", "options": ["Preprocess steps use transform with parameters learned from X_train, then the classifier predicts", "The whole pipeline is refit on X_test", "Scaling is skipped at predict time", "Labels y_test are used to retrain"], "type": "mcq", "answer": 0}, {"id": "p-31", "topic": "models", "q": "ColumnTransformer transformers= item format is:", "exp": "Пример: `(\"num\", numeric_transformer, numeric_features)`.", "options": ["`(name, transformer, columns)`", "`(columns, transformer)`", "`{name: transformer}`", "`(transformer, name, columns, y)`"], "type": "mcq", "answer": 0}, {"id": "p-32", "topic": "models", "q": "Pipeline steps= item format is:", "exp": "`(\"imputer\", SimpleImputer(...))`. Все шаги кроме последнего — трансформеры; последний может быть моделью.", "options": ["`(name, estimator)`", "`(name, estimator, columns)`", "Only the estimator object", "A dict"], "type": "mcq", "answer": 0}, {"id": "p-33", "topic": "models", "q": "Best careful conclusion for Q16 (accuracies ~0.986 and 1.0)?", "exp": "Разница в 1 птицу на 69 — маленькая. На другом random_state могло быть иначе. 1.0 на тесте ≠ гарантия навсегда.", "options": ["Features separate species well; LogReg slightly better on this split (1 penguin difference); high accuracy ≠ forever perfect", "LogReg is always better than KNN on any data", "KNN is useless", "Accuracy 1.0 means the model never errs on new penguins"], "type": "mcq", "answer": 0}, {"id": "p-34", "topic": "models", "q": "Which module contains LogisticRegression?", "exp": "`from sklearn.linear_model import LogisticRegression`. KNN — из `sklearn.neighbors`.", "options": ["sklearn.linear_model", "sklearn.neighbors", "sklearn.impute", "sklearn.compose"], "type": "mcq", "answer": 0}, {"id": "p-35", "topic": "models", "q": "handle_unknown=\"ignore\" in OneHotEncoder means:", "exp": "Нужно, если в test появится категория, которой не было в train.", "options": ["An unseen category becomes a row of zeros instead of raising an error", "Unknown categories are deleted from train", "The encoder refits automatically", "All categories become the mode"], "type": "mcq", "answer": 0}];
+window.CHEATSHEET = [{"title": "🧾 Lab3: tips — что нужно уметь", "body": "Датасет: `sns.load_dataset('tips')`, форма **(244, 7)**.\nСтолбцы: `total_bill`, `tip`, `sex`, `smoker`, `day`, `time`, `size`.\nДни: `Thur`, `Fri`, `Sat`, `Sun`. Пропусков **нет**.\n\n```python\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nimport numpy as np\n\ndf = sns.load_dataset('tips')\ndf.head()\nprint(df.shape)\nprint(df.columns)\ndf.isnull().sum()\n```\n\n## Фильтрация: выходные / будни\n```python\nweekend = df[df['day'].isin(['Sat', 'Sun'])]\nweekday = df[df['day'].isin(['Thur', 'Fri'])]\n\nprint(weekend['tip'].mean(), weekend['total_bill'].mean())\nprint(weekday['tip'].mean(), weekday['total_bill'].mean())\n# weekend tip ≈ 3.12, bill ≈ 20.9\n# weekday tip ≈ 2.76, bill ≈ 17.6\n```\nВывод: на выходных чаевые выше, потому что и счёт выше.\n\n## Сортировка top-10\n```python\ndf_sorted = df.sort_values('total_bill', ascending=False)\ntop10 = df_sorted.head(10)\nprint(top10['size'].mean())   # ≈ 3.8 vs все ≈ 2.57\n```\nБольшие счета — у больших компаний.\n\n## Графики Lab3\n```python\nsns.scatterplot(x='total_bill', y='tip', data=df)\ndf.groupby('day', observed=True)['tip'].mean().plot(kind='bar')\nsns.histplot(df['tip'], bins=20, kde=True)\n```\n- Scatter: больше счёт → больше tip.\n- По дням: **Sun > Sat > Thur > Fri**.\n- Histogram: большинство tip ≈ 2–4 $, хвост справа.\n\n## Почему пропуски опасны\nМного моделей не умеют NaN; удаление строк теряет данные и может сместить выборку; заполнение средним может скрыть паттерн.\n\n## Итог Lab3\nЧаевые выше на weekend dinner, у больших столов; smokers ≈ non-smokers; men чуть больше в $, dinner > lunch."}, {"title": "🐧 Lab4: penguins — данные и очистка", "body": "`sns.load_dataset(\"penguins\")` → **(344, 7)**.\nСтолбцы: `species`, `island`, `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, `body_mass_g`, `sex`.\n\nПропуски: числовые по 2, `sex` = 11. Дубликатов 0.\n\n```python\ndf = sns.load_dataset(\"penguins\")\nprint(df.shape, df.columns, df.dtypes)\ndf.isnull().sum()\n\ndf_clean = df.drop_duplicates().copy()\nnum_cols = df_clean.select_dtypes(include=\"number\").columns\ncat_cols = df_clean.select_dtypes(exclude=\"number\").columns\n\nfor col in num_cols:\n    df_clean[col] = df_clean[col].fillna(df_clean[col].median())\nfor col in cat_cols:\n    df_clean[col] = df_clean[col].fillna(df_clean[col].mode()[0])\n\ndf_clean.isnull().sum()\n```\nВажно: `mode()[0]` — мода это Series. Присваивать обратно, не `inplace` на столбце."}, {"title": "🔎 Lab4: фильтр, сорт, groupby", "body": "```python\nbiscoe_df = df_clean[df_clean[\"island\"] == \"Biscoe\"]\nprint(biscoe_df.shape)   # (168, 7)\n\nmean_mass = df_clean[\"body_mass_g\"].mean()\nheavy_males = df_clean[(df_clean[\"body_mass_g\"] > mean_mass) & (df_clean[\"sex\"] == \"Male\")]\n\ndf_clean.sort_values(by=[\"body_mass_g\", \"bill_length_mm\"],\n                     ascending=[False, True]).head(10)\n\nprint(df_clean.groupby(\"species\")[\"body_mass_g\"].mean().sort_values(ascending=False))\n# Gentoo > Chinstrap > Adelie\nprint(df_clean.groupby([\"species\", \"sex\"])[\"bill_length_mm\"].mean())\nprint(df_clean.groupby(\"island\").size())\n# Biscoe 168, Dream 124, Torgersen 52\n\ndf_clean[\"bill_ratio\"] = df_clean[\"bill_length_mm\"] / df_clean[\"bill_depth_mm\"]\nprint(df_clean[\"bill_ratio\"].describe())\nprint(df_clean.groupby(\"species\")[\"bill_ratio\"].mean().idxmax())  # Gentoo\n```\nЛовушки:\n- `&` и скобки, не `and`;\n- `ascending=[False, True]` — список той же длины;\n- `size()` считает строки, `sum()` суммирует значения;\n- `idxmax()` — имя максимума, `max()` — само число."}, {"title": "📊 Lab4: графики", "body": "```python\nsns.countplot(data=df_clean, x=\"species\")\nsns.scatterplot(data=df_clean, x=\"bill_length_mm\", y=\"bill_depth_mm\", hue=\"species\")\nsns.boxplot(data=df_clean, x=\"species\", y=\"body_mass_g\")\n\ncorr = df_clean.select_dtypes(include=\"number\").corr()\nsns.heatmap(corr, annot=True)\n```\n- Gentoo тяжелее всех; Adelie и Chinstrap почти одинаковы по массе.\n- Виды хорошо разделяются по клюву на scatter.\n- `countplot` = количество; `barplot` = среднее y."}, {"title": "🤖 Lab4: ML pipeline (выучить наизусть)", "body": "```python\ny = df_clean[\"species\"]\nX = df_clean.drop(columns=[\"species\"])\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n# shapes: (275, 7) и (69, 7)   ← 7 потому что есть bill_ratio\n\nnumeric_features = X.select_dtypes(include=[np.number]).columns.tolist()\ncategorical_features = X.select_dtypes(exclude=[np.number]).columns.tolist()\n# num: 5 (с bill_ratio), cat: island, sex\n\nnumeric_transformer = Pipeline(steps=[\n    (\"imputer\", SimpleImputer(strategy=\"median\")),\n    (\"scaler\", StandardScaler())\n])\ncategorical_transformer = Pipeline(steps=[\n    (\"imputer\", SimpleImputer(strategy=\"most_frequent\")),\n    (\"onehot\", OneHotEncoder(handle_unknown=\"ignore\"))\n])\npreprocess = ColumnTransformer(transformers=[\n    (\"num\", numeric_transformer, numeric_features),\n    (\"cat\", categorical_transformer, categorical_features),\n])\n# после preprocess: 10 столбцов (5 + 3 island + 2 sex)\n\nknn_model = Pipeline(steps=[\n    (\"preprocess\", preprocess),\n    (\"model\", KNeighborsClassifier(n_neighbors=5))\n])\nknn_model.fit(X_train, y_train)\nknn_pred = knn_model.predict(X_test)\nprint(accuracy_score(y_test, knn_pred))   # ≈ 0.986 (68/69)\n\nlogreg_model = Pipeline(steps=[\n    (\"preprocess\", preprocess),\n    (\"model\", LogisticRegression(max_iter=2000))\n])\nlogreg_model.fit(X_train, y_train)\nprint(accuracy_score(y_test, logreg_model.predict(X_test)))  # 1.0\n```\n\nПорядок импортов, которые просят в лабе:\n```python\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.preprocessing import OneHotEncoder, StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n```\n\n## Зачем каждый шаг пайплайна\n- Imputer в пайплайне даже после ручной очистки — для **новых** данных.\n- Числа: median → StandardScaler (KNN на расстояниях).\n- Категории: most_frequent → OneHot `handle_unknown=\"ignore\"`.\n- `stratify=y` — пропорции видов в train/test одинаковые.\n- `fit` только на train; на test — `predict` (внутри pipeline transform).\n- LogisticRegression — **классификатор**, `max_iter=2000` чтобы сошёлся.\n- `accuracy_score(y_true, y_pred)` — true первым."}, {"title": "🚢 Titanic P3 (часто рядом с Lab3)", "body": "```python\ndf = sns.load_dataset('titanic')\ndf.isnull().sum()   # age 177, embarked 2, deck 688, embark_town 2\n\ndf['embarked'] = df['embarked'].fillna(df['embarked'].mode()[0])\ndf[['sex', 'class']] = df[['sex', 'class']].astype('category')\ndf['family_size'] = df['sibsp'] + df['parch'] + 1\ndf['fare'] = df['fare'].clip(upper=df['fare'].quantile(0.99))\n\nsns.pairplot(df, vars=['age', 'fare', 'sibsp'], hue='survived')\nsns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm')\nsns.scatterplot(x='age', y='fare', hue='survived', data=df)\nsns.histplot(df['age'], bins=30, kde=True)\n```"}, {"title": "⚠️ Ловушки на тесте", "body": "- `df.shape()` → ошибка (`shape` без скобок).\n- `and` вместо `&` → ValueError.\n- Условия без скобок: `&` сильнее `>`.\n- `mode()` без `[0]` → fillna почти не заполнит.\n- `fit_transform` на test → утечка / другие столбцы.\n- После `bill_ratio` у X **7** признаков, не 6.\n- Порядок split: `X_train, X_test, y_train, y_test`.\n- `countplot` ≠ `barplot`."}];
+</script>
+<script>
+(function () {
+  "use strict";
+
+  var TOPICS = window.TOPICS;
+  var QUESTIONS = window.QUESTIONS;
+  var CHEATSHEET = window.CHEATSHEET;
+  var LS_STATS = "lab34_stats_v1";
+  var LS_SESSION = "lab34_session_v1";
+  var LS_PREFS = "lab34_prefs_v1";
+  var EXAM_SIZE = 25;
+
+  var byId = {};
+  QUESTIONS.forEach(function (q) { byId[q.id] = q; });
+  var topicByKey = {};
+  TOPICS.forEach(function (t) { topicByKey[t.key] = t; });
+
+  var stats = readLS(LS_STATS, {});
+  var prefs = readLS(LS_PREFS, { topics: TOPICS.map(function (t) { return t.key; }), shuffle: true });
+  var session = readLS(LS_SESSION, null);
+  if (session && !(session.ids || []).every(function (id) { return byId[id]; })) session = null;
+  var tab = "test";
+  var app = document.getElementById("app");
+
+  function readLS(key, dflt) {
+    try { var v = JSON.parse(localStorage.getItem(key)); return v == null ? dflt : v; } catch (e) { return dflt; }
+  }
+  function writeLS(key, v) {
+    try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) { /* private mode */ }
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  var PY_RE = /(#[^\n]*)|((?:\b[fFrRbB])?(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'))|(\b\d+(?:\.\d*)?(?:e[-+]?\d+)?\b)|\b(def|class|return|import|from|as|if|elif|else|for|while|in|and|or|not|is|None|True|False|lambda|with|pass|assert|try|except|raise)\b|\b(print|len|range|type|max|min|sum|round|self|dict|list|abs|super)\b/g;
+  var CLS = ["", "c", "s", "n", "k", "b"];
+
+  function hl(code, lang) {
+    if (lang && lang !== "py") return esc(code);
+    var out = "", last = 0, m;
+    PY_RE.lastIndex = 0;
+    while ((m = PY_RE.exec(code))) {
+      if (m[0].length === 0) { PY_RE.lastIndex++; continue; }
+      out += esc(code.slice(last, m.index));
+      var g = 1;
+      while (g < 6 && !m[g]) g++;
+      out += '<span class="t-' + CLS[g] + '">' + esc(m[0]) + "</span>";
+      last = PY_RE.lastIndex;
+    }
+    return out + esc(code.slice(last));
+  }
+
+  function inline(s) {
+    return String(s).split(/(`[^`]+`)/).map(function (part) {
+      if (/^`[^`]+`$/.test(part)) return "<code>" + esc(part.slice(1, -1)) + "</code>";
+      return esc(part).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+    }).join("");
+  }
+
+  function md(text) {
+    var lines = String(text || "").split("\n");
+    var html = "", para = [], list = null, i = 0;
+    function flushPara() { if (para.length) { html += "<p>" + para.map(inline).join("<br>") + "</p>"; para = []; } }
+    function flushList() { if (list) { html += "<" + list.tag + ">" + list.items.map(function (x) { return "<li>" + inline(x) + "</li>"; }).join("") + "</" + list.tag + ">"; list = null; } }
+    while (i < lines.length) {
+      var line = lines[i];
+      var fence = line.match(/^```(\w*)\s*$/);
+      if (fence) {
+        flushPara(); flushList();
+        var lang = fence[1] || "py", buf = [];
+        i++;
+        while (i < lines.length && !/^```\s*$/.test(lines[i])) { buf.push(lines[i]); i++; }
+        html += '<pre class="code">' + hl(buf.join("\n"), lang) + "</pre>";
+        i++;
+        continue;
+      }
+      var h = line.match(/^(#{2,4})\s+(.*)$/);
+      var ul = line.match(/^\s*[-•]\s+(.*)$/);
+      var ol = line.match(/^\s*\d+[.)]\s+(.*)$/);
+      if (h) { flushPara(); flushList(); html += "<h3>" + inline(h[2]) + "</h3>"; }
+      else if (ul) { flushPara(); if (!list || list.tag !== "ul") { flushList(); list = { tag: "ul", items: [] }; } list.items.push(ul[1]); }
+      else if (ol) { flushPara(); if (!list || list.tag !== "ol") { flushList(); list = { tag: "ol", items: [] }; } list.items.push(ol[1]); }
+      else if (/^\s*$/.test(line)) { flushPara(); flushList(); }
+      else { flushList(); para.push(line); }
+      i++;
+    }
+    flushPara(); flushList();
+    return '<div class="md">' + html + "</div>";
+  }
+
+  var BLANK_RE = /⟦([^⟧]*)⟧/g;
+  function parseBlanks(code) {
+    var parts = [], last = 0, m, n = 0;
+    BLANK_RE.lastIndex = 0;
+    while ((m = BLANK_RE.exec(code))) {
+      if (m.index > last) parts.push({ text: code.slice(last, m.index) });
+      parts.push({ blank: n++, answers: m[1].split("|") });
+      last = BLANK_RE.lastIndex;
+    }
+    if (last < code.length) parts.push({ text: code.slice(last) });
+    return parts;
+  }
+
+  function norm(s) {
+    return String(s)
+      .replace(/[\u2018\u2019\u201C\u201D']/g, '"')
+      .replace(/\s+/g, "")
+      .replace(/^\.+/, "")
+      .replace(/\(\)$/, "");
+  }
+
+  function blankOk(user, answers) {
+    var u = norm(user);
+    if (!u) return false;
+    return answers.some(function (a) { return norm(a) === u; });
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function isCode(q) { return q.type === "fill" || !!q.code; }
+
+  function topicStats(key) {
+    var qs = QUESTIONS.filter(function (q) { return q.topic === key; });
+    var ok = qs.filter(function (q) { return stats[q.id] && stats[q.id].last; }).length;
+    return { total: qs.length, ok: ok };
+  }
+
+  function mistakeIds() {
+    return QUESTIONS.filter(function (q) { return stats[q.id] && stats[q.id].last === false; }).map(function (q) { return q.id; });
+  }
+
+  function startSession(ids, title) {
+    if (!ids.length) { alert("Нет вопросов для этого режима."); return; }
+    session = { ids: ids, idx: 0, answers: {}, title: title, order: {} };
+    writeLS(LS_SESSION, session);
+    tab = "test";
+    render();
+    window.scrollTo(0, 0);
+  }
+
+  function selectedIds(filterFn) {
+    var keys = prefs.topics;
+    var ids = QUESTIONS.filter(function (q) { return keys.indexOf(q.topic) >= 0 && (!filterFn || filterFn(q)); }).map(function (q) { return q.id; });
+    return prefs.shuffle ? shuffle(ids) : ids;
+  }
+
+  // ---------- HOME ----------
+  function renderHome() {
+    var answered = Object.keys(stats).filter(function (k) { return byId[k]; });
+    var okCount = answered.filter(function (k) { return stats[k].last; }).length;
+    var mistakes = mistakeIds();
+    var codeCount = QUESTIONS.filter(isCode).length;
+    var h = "";
+    h += "<h1>Подготовка: Lab3 + Lab4</h1>";
+    h += '<div class="muted">Только tips, Titanic P3 и penguins (очистка → графики → Pipeline). Вопросы на английском, объяснения на русском. После ответа всегда видно правильный вариант.</div>';
+    h += '<div class="card stats">' +
+      "<div><b>" + QUESTIONS.length + "</b><span>вопросов</span></div>" +
+      "<div><b>" + codeCount + "</b><span>с кодом</span></div>" +
+      "<div><b>" + okCount + "</b><span>верно</span></div>" +
+      "<div><b>" + mistakes.length + "</b><span>ошибок</span></div></div>";
+
+    if (session && session.idx < session.ids.length) {
+      h += '<button class="btn" data-act="continue">Продолжить: ' + esc(session.title) + " (" + (session.idx + 1) + "/" + session.ids.length + ")</button>";
+    }
+
+    h += "<h2>Быстрый старт</h2>";
+    h += '<div class="grid2">' +
+      '<button class="btn secondary" data-act="all">Все выбранные темы</button>' +
+      '<button class="btn secondary" data-act="code">Только код ✍️</button>' +
+      '<button class="btn secondary" data-act="exam">Экзамен: ' + EXAM_SIZE + " случайных</button>" +
+      '<button class="btn secondary" data-act="mistakes"' + (mistakes.length ? "" : " disabled") + ">Работа над ошибками (" + mistakes.length + ")</button>" +
+      "</div>";
+    h += '<div class="hint">«Экзамен» берёт вопросы из всех тем, независимо от галочек ниже.</div>';
+
+    h += "<h2>Темы</h2>";
+    h += '<div class="card">';
+    TOPICS.forEach(function (t) {
+      var s = topicStats(t.key);
+      var on = prefs.topics.indexOf(t.key) >= 0;
+      h += '<label class="topic"><input type="checkbox" data-topic="' + t.key + '"' + (on ? " checked" : "") + ">" +
+        '<div class="tname">' + t.icon + " " + esc(t.name) +
+        '<div class="bar"><i style="width:' + (s.total ? Math.round(100 * s.ok / s.total) : 0) + '%"></i></div></div>' +
+        '<div class="tcount">' + s.ok + "/" + s.total + "</div></label>";
+    });
+    h += "</div>";
+    h += '<div class="row"><button class="btn ghost" data-act="selall">Выбрать все</button><button class="btn ghost" data-act="selnone">Снять все</button></div>';
+    h += '<label class="toggle"><input type="checkbox" data-act="shuffle"' + (prefs.shuffle ? " checked" : "") + "> Перемешивать вопросы</label>";
+    h += '<div class="hint">Нажми на тему один раз, чтобы пройти только её: сними все галочки, отметь нужную и нажми «Все выбранные темы».</div>';
+    h += '<div style="height:16px"></div><button class="btn ghost" data-act="reset">Сбросить прогресс</button>';
+    app.innerHTML = '<div class="wrap">' + h + "</div>" + navHtml();
+
+    app.querySelectorAll("[data-topic]").forEach(function (el) {
+      el.addEventListener("change", function () {
+        var k = el.getAttribute("data-topic");
+        prefs.topics = prefs.topics.filter(function (x) { return x !== k; });
+        if (el.checked) prefs.topics.push(k);
+        writeLS(LS_PREFS, prefs);
+      });
+    });
+    bind("continue", function () { tab = "test"; render(); });
+    bind("all", function () { startSession(selectedIds(), "Выбранные темы"); });
+    bind("code", function () { startSession(selectedIds(isCode), "Только код"); });
+    bind("exam", function () { startSession(shuffle(QUESTIONS.map(function (q) { return q.id; })).slice(0, EXAM_SIZE), "Экзамен"); });
+    bind("mistakes", function () { startSession(shuffle(mistakeIds()), "Работа над ошибками"); });
+    bind("selall", function () { prefs.topics = TOPICS.map(function (t) { return t.key; }); writeLS(LS_PREFS, prefs); render(); });
+    bind("selnone", function () { prefs.topics = []; writeLS(LS_PREFS, prefs); render(); });
+    var sh = app.querySelector('[data-act="shuffle"]');
+    sh.addEventListener("change", function () { prefs.shuffle = sh.checked; writeLS(LS_PREFS, prefs); });
+    bind("reset", function () {
+      if (confirm("Сбросить весь прогресс и ошибки?")) { stats = {}; writeLS(LS_STATS, stats); session = null; writeLS(LS_SESSION, null); render(); }
+    });
+    bindNav();
+  }
+
+  function bind(act, fn) {
+    var el = app.querySelector('button[data-act="' + act + '"]');
+    if (el) el.addEventListener("click", fn);
+  }
+
+  function navHtml() {
+    return '<nav class="tabs">' +
+      '<button data-tab="home" class="' + (tab !== "sheet" ? "on" : "") + '"><span>🎯</span>Тест</button>' +
+      '<button data-tab="sheet" class="' + (tab === "sheet" ? "on" : "") + '"><span>📚</span>Конспект</button>' +
+      "</nav>";
+  }
+
+  function bindNav() {
+    app.querySelectorAll("nav.tabs button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var t = b.getAttribute("data-tab");
+        tab = t === "sheet" ? "sheet" : "home";
+        render();
+        window.scrollTo(0, 0);
+      });
+    });
+  }
+
+  // ---------- QUIZ ----------
+  function currentQ() { return byId[session.ids[session.idx]]; }
+
+  function optionOrder(q) {
+    if (!session.order[q.id]) {
+      var idx = q.options.map(function (_, i) { return i; });
+      session.order[q.id] = q.fixed ? idx : shuffle(idx);
+      writeLS(LS_SESSION, session);
+    }
+    return session.order[q.id];
+  }
+
+  function renderQuiz() {
+    if (session.idx >= session.ids.length) { renderResults(); return; }
+    var q = currentQ();
+    var st = session.answers[q.id];
+    var done = !!st;
+    var nOk = 0, nBad = 0;
+    Object.keys(session.answers).forEach(function (k) { if (session.answers[k].ok) nOk++; else nBad++; });
+    var t = topicByKey[q.topic];
+    var h = "";
+    h += '<div class="qtop"><button class="btn ghost back" data-act="home">← Меню</button>' +
+      '<div class="prog">' + (session.idx + 1) + " / " + session.ids.length + " · ✅ " + nOk + " · ❌ " + nBad + "</div></div>";
+    h += '<div class="pbar"><i style="width:' + Math.round(100 * session.idx / session.ids.length) + '%"></i></div>';
+    h += '<div class="card">';
+    h += '<div class="tags"><span class="tag">' + t.icon + " " + esc(t.name) + "</span>";
+    var typeName = { mcq: "Один ответ", multi: "Несколько ответов", fill: "Допиши код", num: "Посчитай" }[q.type];
+    h += '<span class="tag' + (isCode(q) ? " code" : "") + '">' + typeName + "</span></div>";
+    h += '<div class="qtext">' + inline(q.q) + "</div>";
+
+    if (q.type === "fill") {
+      h += '<div class="hint">Впиши пропуски. Регистр важен, пробелы не важны. Enter — проверить.</div>';
+      h += '<pre class="code" id="fillcode">' + renderFillCode(q, st) + "</pre>";
+    } else if (q.code) {
+      h += '<pre class="code">' + hl(q.code, q.lang) + "</pre>";
+    }
+
+    if (q.type === "mcq" || q.type === "multi") {
+      if (q.type === "multi") h += '<div class="hint">Выбери все верные варианты, потом нажми «Проверить».</div>';
+      var order = optionOrder(q);
+      var letters = "ABCDEFGH";
+      order.forEach(function (oi, pos) {
+        var cls = "opt";
+        if (done) {
+          var correct = q.type === "mcq" ? q.answer === oi : q.answer.indexOf(oi) >= 0;
+          var chosen = q.type === "mcq" ? st.resp === oi : st.resp.indexOf(oi) >= 0;
+          if (correct && chosen) cls += " ok";
+          else if (!correct && chosen) cls += " bad";
+          else if (correct) cls += q.type === "mcq" ? " ok" : " miss";
+        }
+        h += '<button class="' + cls + '" data-opt="' + oi + '"' + (done ? " disabled" : "") + '><span class="mk">' + letters[pos] + "</span>" + inline(q.options[oi]) + "</button>";
+      });
+    }
+
+    if (q.type === "num") {
+      h += '<div class="hint">Введи число. Можно с точкой или запятой.</div>';
+      var cls2 = "num" + (done ? (st.ok ? " ok" : " bad") : "");
+      h += '<input class="' + cls2 + '" id="numin" inputmode="decimal" autocomplete="off" placeholder="Ответ"' + (done ? ' value="' + esc(st.resp) + '" readonly' : "") + ">";
+    }
+
+    if (done) h += feedbackHtml(q, st);
+    h += "</div>";
+
+    var actions = '<div class="actions"><div class="inner">';
+    actions += '<button class="btn ghost small" data-act="prev"' + (session.idx === 0 ? " disabled" : "") + ">←</button>";
+    if (!done) {
+      if (q.type !== "mcq") actions += '<button class="btn" data-act="check">Проверить</button>';
+      actions += '<button class="btn ghost small" data-act="reveal">Не знаю</button>';
+    } else {
+      actions += '<button class="btn" data-act="next">' + (session.idx + 1 < session.ids.length ? "Дальше →" : "Результаты") + "</button>";
+    }
+    actions += "</div></div>";
+
+    app.innerHTML = '<div class="wrap">' + h + "</div>" + actions + navHtml();
+
+    var multiSel = [];
+    app.querySelectorAll(".opt").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (done) return;
+        var oi = +b.getAttribute("data-opt");
+        if (q.type === "mcq") {
+          answer(q, oi);
+        } else {
+          var k = multiSel.indexOf(oi);
+          if (k >= 0) multiSel.splice(k, 1); else multiSel.push(oi);
+          b.classList.toggle("sel");
+        }
+      });
+    });
+    bind("home", function () { tab = "home"; render(); });
+    bind("prev", function () { session.idx = Math.max(0, session.idx - 1); writeLS(LS_SESSION, session); render(); window.scrollTo(0, 0); });
+    bind("next", function () { session.idx++; writeLS(LS_SESSION, session); render(); window.scrollTo(0, 0); });
+    bind("reveal", function () { answer(q, null, true); });
+    bind("check", function () {
+      if (q.type === "multi") { if (!multiSel.length) return; answer(q, multiSel.slice()); }
+      else if (q.type === "fill") answer(q, readFill());
+      else if (q.type === "num") {
+        var v = document.getElementById("numin").value.trim();
+        if (!v) return;
+        answer(q, v);
+      }
+    });
+    app.querySelectorAll("input.blank, #numin").forEach(function (inp) {
+      inp.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        var inputs = Array.prototype.slice.call(app.querySelectorAll("input.blank"));
+        var pos = inputs.indexOf(inp);
+        if (pos >= 0 && pos < inputs.length - 1 && !inputs[pos + 1].value) { inputs[pos + 1].focus(); return; }
+        var c = app.querySelector('button[data-act="check"]');
+        if (c) c.click();
+      });
+    });
+    if (done) {
+      document.onkeydown = function (e) {
+        if (e.key === "Enter" && document.activeElement.tagName !== "INPUT") {
+          var n = app.querySelector('button[data-act="next"]');
+          if (n) n.click();
+        }
+      };
+    } else {
+      document.onkeydown = null;
+    }
+    bindNav();
+  }
+
+  function renderFillCode(q, st) {
+    var parts = parseBlanks(q.code);
+    return parts.map(function (p) {
+      if (p.text !== undefined) return hl(p.text, q.lang);
+      var w = Math.max(5, Math.max.apply(null, p.answers.map(function (a) { return a.length; })) + 2);
+      var attrs = ' data-i="' + p.blank + '" style="width:' + w + 'ch" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"';
+      if (st) {
+        var v = st.resp ? st.resp[p.blank] || "" : "";
+        var ok = blankOk(v, p.answers);
+        return '<input class="blank ' + (ok ? "ok" : "bad") + '"' + attrs + ' value="' + esc(v) + '" readonly>';
+      }
+      return '<input class="blank"' + attrs + ">";
+    }).join("");
+  }
+
+  function readFill() {
+    var vals = [];
+    app.querySelectorAll("input.blank").forEach(function (inp) { vals[+inp.getAttribute("data-i")] = inp.value; });
+    return vals;
+  }
+
+  function filledCode(q) {
+    return parseBlanks(q.code).map(function (p) {
+      if (p.text !== undefined) return hl(p.text, q.lang);
+      return "<mark>" + esc(p.answers[0]) + "</mark>";
+    }).join("");
+  }
+
+  function check(q, resp) {
+    if (resp == null) return false;
+    if (q.type === "mcq") return resp === q.answer;
+    if (q.type === "multi") {
+      return resp.length === q.answer.length && q.answer.every(function (a) { return resp.indexOf(a) >= 0; });
+    }
+    if (q.type === "fill") {
+      return parseBlanks(q.code).filter(function (p) { return p.blank !== undefined; })
+        .every(function (p) { return blankOk(resp[p.blank] || "", p.answers); });
+    }
+    if (q.type === "num") {
+      var v = parseFloat(String(resp).replace(",", "."));
+      return !isNaN(v) && Math.abs(v - q.answer) <= (q.tol || 0);
+    }
+    return false;
+  }
+
+  function answer(q, resp, revealed) {
+    var ok = !revealed && check(q, resp);
+    if (revealed) {
+      resp = q.type === "multi" ? [] : q.type === "fill" ? readFill() : q.type === "num" ? "" : -1;
+    }
+    session.answers[q.id] = { ok: ok, resp: resp };
+    writeLS(LS_SESSION, session);
+    var s = stats[q.id] || { ok: 0, bad: 0 };
+    if (ok) s.ok++; else s.bad++;
+    s.last = ok;
+    stats[q.id] = s;
+    writeLS(LS_STATS, stats);
+    render();
+    var fb = app.querySelector(".fb");
+    if (fb && fb.getBoundingClientRect().top > window.innerHeight * 0.6) {
+      fb.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function feedbackHtml(q, st) {
+    var h = '<div class="fb ' + (st.ok ? "ok" : "bad") + '">';
+    h += '<div class="verdict">' + (st.ok ? "✅ Правильно" : "❌ Неправильно") + "</div>";
+    if (q.type === "mcq") {
+      h += '<div class="ans">Верный ответ: <b>' + inline(q.options[q.answer]) + "</b></div>";
+    } else if (q.type === "multi") {
+      h += '<div class="ans">Верные ответы:<ul>' + q.answer.map(function (a) { return "<li>" + inline(q.options[a]) + "</li>"; }).join("") + "</ul></div>";
+    } else if (q.type === "num") {
+      h += '<div class="ans">Верный ответ: <b>' + esc(q.answerText || String(q.answer)) + "</b></div>";
+    } else if (q.type === "fill") {
+      h += '<div class="ans">Правильный код:</div><pre class="code">' + filledCode(q) + "</pre>";
+      var alts = parseBlanks(q.code).filter(function (p) { return p.blank !== undefined && p.answers.length > 1; });
+      if (alts.length) {
+        h += '<div class="hint">Тоже засчитывается: ' + alts.map(function (p) { return p.answers.slice(1).map(function (a) { return "<code>" + esc(a) + "</code>"; }).join(", "); }).join("; ") + "</div>";
+      }
+    }
+    h += "<div><b>Почему так:</b></div>" + md(q.exp);
+    h += "</div>";
+    return h;
+  }
+
+  function renderResults() {
+    var ids = session.ids;
+    var ok = ids.filter(function (id) { return session.answers[id] && session.answers[id].ok; });
+    var wrong = ids.filter(function (id) { return session.answers[id] && !session.answers[id].ok; });
+    var pct = ids.length ? Math.round(100 * ok.length / ids.length) : 0;
+    var h = "<h1>Результат: " + esc(session.title) + "</h1>";
+    h += '<div class="card"><div class="big">' + pct + "%</div>" +
+      '<div class="muted" style="text-align:center">Верно ' + ok.length + " из " + ids.length + "</div></div>";
+    if (wrong.length) {
+      h += '<button class="btn" data-act="redo">Повторить ошибки этой попытки (' + wrong.length + ")</button>";
+      h += "<h2>Где ошибся</h2><div class=\"card reslist\"><ol>";
+      wrong.forEach(function (id) {
+        var q = byId[id];
+        h += '<li><a href="#" data-goto="' + ids.indexOf(id) + '">' + inline(q.q.length > 110 ? q.q.slice(0, 110) + "…" : q.q) + "</a></li>";
+      });
+      h += "</ol></div>";
+    }
+    h += '<div style="height:8px"></div><button class="btn secondary" data-act="home">В меню</button>';
+    app.innerHTML = '<div class="wrap">' + h + "</div>" + navHtml();
+    bind("redo", function () { startSession(shuffle(wrong), "Ошибки попытки"); });
+    bind("home", function () { session = null; writeLS(LS_SESSION, null); tab = "home"; render(); });
+    app.querySelectorAll("[data-goto]").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        session.idx = +a.getAttribute("data-goto");
+        render();
+        window.scrollTo(0, 0);
+      });
+    });
+    bindNav();
+  }
+
+  // ---------- CHEATSHEET ----------
+  function renderSheet() {
+    var h = "<h1>Конспект</h1>";
+    h += '<div class="muted">Коротко по каждой теме: что делает код, какие параметры, где ловушки.</div>';
+    h += '<div style="height:8px"></div><input class="search" id="sheetq" placeholder="Поиск по конспекту, например fit_transform">';
+    h += '<div id="secs">';
+    CHEATSHEET.forEach(function (s, i) {
+      h += '<details class="sec" data-sec="' + i + '"><summary>' + esc(s.title) + "</summary>" + md(s.body) + "</details>";
+    });
+    h += "</div>";
+    app.innerHTML = '<div class="wrap">' + h + "</div>" + navHtml();
+    var inp = document.getElementById("sheetq");
+    inp.addEventListener("input", function () {
+      var term = inp.value.trim().toLowerCase();
+      app.querySelectorAll("details.sec").forEach(function (d) {
+        var s = CHEATSHEET[+d.getAttribute("data-sec")];
+        var hit = !term || (s.title + "\n" + s.body).toLowerCase().indexOf(term) >= 0;
+        d.style.display = hit ? "" : "none";
+        d.open = !!term && hit;
+      });
+    });
+    bindNav();
+  }
+
+  function render() {
+    document.onkeydown = null;
+    if (tab === "sheet") renderSheet();
+    else if (tab === "test" && session) renderQuiz();
+    else renderHome();
+  }
+
+  var deep = location.hash.match(/^#q=(.+)$/);
+  if (deep && byId[decodeURIComponent(deep[1])]) {
+    session = { ids: [decodeURIComponent(deep[1])], idx: 0, answers: {}, title: "Один вопрос", order: {} };
+    tab = "test";
+  } else if (location.hash === "#sheet") {
+    tab = "sheet";
+  } else {
+    tab = "home";
+  }
+
+  window.__quiz = { check: check, parseBlanks: parseBlanks, blankOk: blankOk, md: md, hl: hl };
+  render();
+})();
+
+</script>
+</body>
+</html>
